@@ -30,10 +30,10 @@ RUN echo "isaac-sim ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 # Toolkit만 설치(--toolkit)해서 용량을 조금이라도 아낍니다.
 ARG CUDA_VER_MAJOR=12
 ARG CUDA_VER_MINOR=8
-# RUN wget https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda_12.8.1_570.124.06_linux.run \
-#     && chmod +x cuda_*.run \
-#     && ./cuda_*.run --silent --toolkit --override \
-#     && rm cuda_*.run
+RUN wget https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda_12.8.1_570.124.06_linux.run \
+    && chmod +x cuda_*.run \
+    && ./cuda_*.run --silent --toolkit --override \
+    && rm cuda_*.run
 
 # 3. 환경 변수 설정 (이제 /usr/local/cuda가 생겼으니 잡아줍니다)
 ENV PATH=/usr/local/cuda/bin:$PATH
@@ -44,7 +44,7 @@ ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
     && rm cuda-keyring_1.1-1_all.deb \
-    && apt-get update && apt-get -y install cuda-${CUDA_VER_MAJOR}-${CUDA_VER_MINOR}
+    && apt-get update
 
 # 4. cuDNN 9 설치 (중요: Ubuntu 24.04는 cuDNN 9가 표준)
 # 'libcudnn9-cuda-12' 패키지를 사용합니다.

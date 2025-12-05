@@ -13,7 +13,6 @@ services:
     tty: true        # -t
     privileged: true # /dev 접근 등 하드웨어 제어권
     network_mode: host
-    # shm_size: '16gb' # 컨테이너에 16GB의 격리된 공유 메모리 공간 할당 (ipc: host 대체)
     ipc: host
 
     # 3. 환경 변수 (스크립트 내용 반영)
@@ -26,8 +25,6 @@ services:
       - TZ=Asia/Seoul
       # 호스트 라이브러리 경로는 충돌 위험이 있으나 스크립트 요청대로 유지
       - LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/zed/lib:/usr/local/lib:${LD_LIBRARY_PATH}
-      # NVIDIA 설정
-      - NVIDIA_DRIVER_CAPABILITIES=all
       - ROS_DOMAIN_ID=0
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
@@ -61,7 +58,5 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              # count: all
-              # device_ids: ["0", "2"]
-              device_ids: ["0"] # 사용할 GPU ID를 여기에 지정합니다. (예: 0번 GPU)
+              device_ids: ['0', '1']
               capabilities: [gpu]
