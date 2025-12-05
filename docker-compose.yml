@@ -11,7 +11,7 @@ services:
     command: bash
     stdin_open: true # -i
     tty: true        # -t
-    privileged: true # /dev 접근 등 하드웨어 제어권
+    # privileged: true # /dev 접근 등 하드웨어 제어권
     network_mode: host
     ipc: host
 
@@ -28,6 +28,7 @@ services:
       - ROS_DOMAIN_ID=0
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
+      - NVIDIA_DRIVER_CAPABILITIES=all
 
     # 4. 볼륨 마운트
     volumes:
@@ -58,5 +59,5 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              device_ids: ['0', '1']
+              device_ids: ['0']
               capabilities: [gpu]
