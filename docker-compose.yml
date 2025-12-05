@@ -15,6 +15,10 @@ services:
     network_mode: host
     ipc: host
 
+    ulimits:
+      stack: 67108864   # 64MB
+      memlock: -1       # 메모라 잠금 해제
+
     # 3. 환경 변수 (스크립트 내용 반영)
     environment:
       - ACCEPT_EULA=Y
@@ -59,5 +63,5 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
+              device_ids: ['0', '1']
+              capabilities: [gpu, utility, graphics, video]
